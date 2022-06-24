@@ -6,7 +6,7 @@
 /*   By: eryudi-m <eryudi-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 01:08:55 by eryudi-m          #+#    #+#             */
-/*   Updated: 2022/06/07 00:02:31 by eryudi-m         ###   ########.fr       */
+/*   Updated: 2022/06/22 21:43:00 by eryudi-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t n)
 	size_t	i;
 	size_t	len;
 
+	len = ft_strlen(src);
+	i = 0;
 	if (!dest || !src)
 		return (0);
-	len = ft_strlen(src);
 	if (n <= 0)
 		return (len);
-	i = 0;
 	while (src[i] != '\0' && (i < (n - 1)))
 	{
 		dest[i] = src[i];
@@ -70,27 +70,30 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char const *s2)
 {
-	size_t	s1_len;
-	size_t	s2_len;
-	size_t	size;
+	size_t	i;
+	size_t	j;
 	char	*result;
-	size_t	cnt;
 
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	size = s1_len + s2_len + 1;
-	result = malloc(sizeof(char) * (size));
-	if (!result)
-		return (NULL);
-	ft_strlcpy(result, s1, s1_len + 1);
-	cnt = 0;
-	while ((cnt + s1_len < (size - 1) && s2[cnt]))
+	i = 0;
+	j = 0;
+	if (!s1)
 	{
-		result[cnt + s1_len + 1] = s2[cnt];
-		cnt++;
+		s1 = (char *)malloc(1 * sizeof(char));
+		s1[0] = '\0';
 	}
-	result[cnt + s1_len + 1] = '\0';
+	if (!s1 || !s2)
+		return (NULL);
+	result = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (result == NULL)
+		return (NULL);
+	if (s1)
+		while (s1[i] != '\0')
+			result[i++] = s1[j++];
+	j = 0;
+	while (s2[j])
+		result[i++] = s2[j++];
+	result[i] = '\0';
 	return (result);
 }
