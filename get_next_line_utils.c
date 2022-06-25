@@ -6,7 +6,7 @@
 /*   By: eryudi-m <eryudi-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 01:08:55 by eryudi-m          #+#    #+#             */
-/*   Updated: 2022/06/06 01:40:24 by eryudi-m         ###   ########.fr       */
+/*   Updated: 2022/06/22 21:43:00 by eryudi-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t n)
 	size_t	i;
 	size_t	len;
 
+	len = ft_strlen(src);
+	i = 0;
 	if (!dest || !src)
 		return (0);
-	len = ft_strlen(src);
 	if (n <= 0)
 		return (len);
-	i = 0;
 	while (src[i] != '\0' && (i < (n - 1)))
 	{
 		dest[i] = src[i];
@@ -70,69 +70,30 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char const *s2)
 {
-	size_t	s1_len;
-	size_t	s2_len;
-	size_t	size;
-	char	*result;
-	size_t	cnt;
-
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	size = s1_len + s2_len + 1;
-	result = malloc(sizeof(char) * (size));
-	if (!result)
-		return (NULL);
-	ft_strlcpy(result, s1, s1_len + 1);
-	cnt = 0;
-	while ((cnt + s1_len < (size - 1) && s2[cnt]))
-	{
-		result[cnt + s1_len + 1] = s2[cnt];
-		cnt++;
-	}
-	result[cnt + s1_len + 1] = '\0';
-	return (result);
-}
-
-/*
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	size_t	s1_len;
-	size_t	s2_len;
-	size_t	size;
+	size_t	i;
+	size_t	j;
 	char	*result;
 
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	size = s1_len + s2_len + 1;
-	result = malloc(sizeof(char) * (size));
-	if (!result)
-		return (NULL);
-	ft_strlcpy(result, s1, s1_len + 1);
-	ft_strlcat(result, s2, size);
-	return (result);
-}
-
-size_t	ft_strlcat(char *dest, const char *src, size_t n)
-{
-	size_t	srclen;
-	size_t	destlen;
-	size_t	cnt;
-
-	srclen = ft_strlen(src);
-	destlen = 0;
-	while (dest[destlen] && destlen < n)
-		destlen++;
-	cnt = 0;
-	if (destlen < n)
+	i = 0;
+	j = 0;
+	if (!s1)
 	{
-		while ((cnt + destlen) < (n - 1) && src[cnt])
-		{
-			dest[cnt + destlen] = src[cnt];
-			cnt++;
-		}
-		dest[cnt + destlen] = '\0';
+		s1 = (char *)malloc(1 * sizeof(char));
+		s1[0] = '\0';
 	}
-	return (destlen + srclen);
+	if (!s1 || !s2)
+		return (NULL);
+	result = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (result == NULL)
+		return (NULL);
+	if (s1)
+		while (s1[i] != '\0')
+			result[i++] = s1[j++];
+	j = 0;
+	while (s2[j])
+		result[i++] = s2[j++];
+	result[i] = '\0';
+	return (result);
 }
