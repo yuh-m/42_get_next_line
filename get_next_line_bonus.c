@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eryudi-m <eryudi-m@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 01:05:03 by eryudi-m          #+#    #+#             */
-/*   Updated: 2022/06/24 16:08:43 by eryudi-m         ###   ########.fr       */
+/*   Updated: 2022/06/24 21:33:16 by eryudi-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*split_on_newline(const char *line_builder)
 {
@@ -78,22 +78,22 @@ void	*manager_buffer(char **line_builder, int fd)
 
 char	*get_next_line(int fd)
 {
-	static char	*remainder_previous_buffer;
+	static char	*remainder_previous_buffer[MAX_FD];
 	char		*line_builder;
 	char		*newline_char_location;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (remainder_previous_buffer == NULL)
-		remainder_previous_buffer = ft_strdup("");
-	line_builder = ft_strdup(remainder_previous_buffer);
+	if (remainder_previous_buffer[fd] == NULL)
+		remainder_previous_buffer[fd] = ft_strdup("");
+	line_builder = ft_strdup(remainder_previous_buffer[fd]);
 	manager_buffer(&line_builder, fd);
 	newline_char_location = ft_strchr(line_builder, '\n');
 	if (newline_char_location != NULL)
-		return (get_first_line(&line_builder, &remainder_previous_buffer, \
+		return (get_first_line(&line_builder, &remainder_previous_buffer[fd], \
 		newline_char_location));
-	free(remainder_previous_buffer);
-	remainder_previous_buffer = NULL;
+	free(remainder_previous_buffer[fd]);
+	remainder_previous_buffer[fd] = NULL;
 	if (ft_strlen(line_builder) == 0)
 	{
 		free(line_builder);
